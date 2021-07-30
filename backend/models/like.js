@@ -20,24 +20,24 @@ module.exports = (sequelize, DataTypes) => {
   Like.associate = function(models) {
     // associations can be defined here
 
-    models.User.belongToMany(models.Message, {
+    models.User.belongsToMany(models.Message, {
       through: models.Like,
       foreignKey: 'userId',
       otherKey: 'messageId',
     });
 
-    models.Message.belongToMany(models.User, {
+    models.Message.belongsToMany(models.User, {
       through: models.Like,
       foreignKey: 'messageId',
       otherKey: 'userId',
     });
 
-    models.Like.belongTo(models.User, {
+    models.Like.belongsTo(models.User, {
       foreignKey: 'userId',
       as: 'user',
     });
 
-    models.Like.belongTo(models.Message, {
+    models.Like.belongsTo(models.Message, {
       foreignKey: 'messageId',
       as: 'message',
     });
