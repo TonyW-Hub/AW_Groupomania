@@ -8,7 +8,7 @@ module.exports = {
         const regexPassword = /((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,64})/
         return regexPassword.test(value)
     },
-    validUsername: function (value) {
+    validPseudo: function (value) {
         const usernameRegex = /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/;
         return usernameRegex.test(value)
     }

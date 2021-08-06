@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 // Module d'authentification
 module.exports = (req, res, next) => {

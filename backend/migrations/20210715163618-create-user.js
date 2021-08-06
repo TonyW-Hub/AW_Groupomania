@@ -13,7 +13,7 @@ module.exports = {
         type: Sequelize.STRING,
         unique: true
       },
-      username: {
+      pseudo: {
         allowNull: false,
         type: Sequelize.STRING
       },
@@ -21,13 +21,14 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
-      bio: {
+      imageUrl: {
         allowNull: true,
         type: Sequelize.STRING
-      },
+    },
       isAdmin: {
         allowNull: false,
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        default: 0
       },
       createdAt: {
         allowNull: false,
@@ -35,6 +36,10 @@ module.exports = {
       },
       updatedAt: {
         allowNull: false,
+        type: Sequelize.DATE
+      },
+      deletedAt: {
+        allowNull: true,
         type: Sequelize.DATE
       }
     });
