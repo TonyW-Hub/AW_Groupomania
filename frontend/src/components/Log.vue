@@ -31,7 +31,7 @@
             <b-alert v-if="errorAlert" show dismissible variant="danger" class="col-10 mx-auto mt-5">Identifiants incorrects</b-alert>
             <div class="mt-5 pt-5">
                 <p class="pb-1"> Vous n'avez pas encore de compte ? Inscrivez-vous !</p>
-                <button class="btn btn-dark btn-sm" @click.prevent="goSignin" >Inscription</button>
+                <button class="btn btn-secondary btn-sm" @click.prevent="goSignin" >Inscription</button>
             </div>
         </div>
     </div>

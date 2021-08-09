@@ -118,13 +118,13 @@ exports.deletePost = (req, res) => {
         if (post.imageUrl !== null) {
             const filename = post.imageUrl.split('/images/')[1]; // get the filename
             fs.unlink(`images/${filename}`, () => { // delete the file
-                Post.destroy({ where: { id: req.params.id } }) // then delete the post
+                Post.destroy({ where: { id: req.params.id },force: true }) // then delete the post
                     .then(() => res.status(200).json({ message: 'Post supprimé !' }))
                     .catch(error => res.status(400).json({ error }));
             });
         }
         // Just delete the post if no file attached
-        Post.destroy({ where: { id: req.params.id } })
+        Post.destroy({ where: { id: req.params.id },force: true })
             .then(() => res.status(200).json({ message: 'Post supprimé !' }))
             .catch(error => res.status(400).json({ error }));
     })

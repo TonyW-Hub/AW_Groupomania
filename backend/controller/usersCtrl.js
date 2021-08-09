@@ -302,12 +302,14 @@ exports.delete = (req, res) => {
           .then(user => {
               if (user != null) {
                   models.Post.destroy({
-                      where: { userId: user.id }
+                      where: { userId: user.id },
+                      force: true
                   })
                     .then(() => {
                         console.log('All post have been deleted');
                         models.User.destroy({
-                            where: { id: user.id }
+                            where: { id: user.id },
+                            force: true
                         })
                             .then(() => res.end())
                             .catch(err => console.log(err))

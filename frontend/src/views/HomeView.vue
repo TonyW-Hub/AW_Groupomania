@@ -1,5 +1,5 @@
 <template>
-  <div class="min-vh-100 d-flex flex-column justify-content-between position-relative bg-primary">
+  <div class="min-vh-100 d-flex flex-column justify-content-between position-relative">
     <Navbar />
     <HomePage />
     <Log />
@@ -8,7 +8,6 @@
 </template>
 
 <script>
-  // @ is an alias to /src
   import Navbar from '@/components/Navbar.vue'
   import HomePage from '@/components/HomePage.vue'
   import Log from '@/components/Log.vue'

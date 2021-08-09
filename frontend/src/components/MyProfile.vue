@@ -14,9 +14,9 @@
             <div class="form-group mt-4">
                 <div class="row">
                     <div class="col-10 mx-auto mb-3">
-                        <b-link v-b-toggle.newPassword class="btn btn-info font-weight-bold px-2 mr-4">Modifier mes infos</b-link>
+                        <b-link v-b-toggle.newPassword class="btn btn-secondary font-weight-bold px-2 mr-4">Modifier mes infos</b-link>
                         <b-collapse id="newPassword">
-                            <form class="card col col-lg-8 mx-auto bg-info py-4 mb-2" @submit.prevent="updateProfile" enctype="multipart/form-data">
+                            <form class="card col col-lg-8 mx-auto bg-secondary py-4 mb-2" @submit.prevent="updateProfile" enctype="multipart/form-data">
                                 <div class="form-group mt-3">
                                     <label for="image" class="font-weight-bold btn btn-light">Modifier mon image</label>
                                     <input type="file" name="image" id="image" ref="image" v-on:change="handleFileUpload()"/>
@@ -67,7 +67,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <button v-b-toggle.newPassword class="btn btn-secondary btn-sm mt-3" type="submit">Valider</button>
+                                    <button v-b-toggle.newPassword class="btn btn-light btn-sm mt-3" type="submit">Valider</button>
                                 </div>
                             </form>
                         </b-collapse>
@@ -166,6 +166,7 @@ export default {
             this.errorInputs = false;
             this.errorDelete = false;
             this.differentConfirmPassword = false;
+            // const regexPassword = /((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,64})/;
 
             // Checks if password input is filled
             if(this.password !== null) {

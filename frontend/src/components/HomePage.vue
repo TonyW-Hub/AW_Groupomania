@@ -1,9 +1,8 @@
 <template>
-    <div class="container-fluid text-white">
+    <div class="container-fluid text-white home align-self-start">
         <div>
-            <h1 class="my-3">Bienvenue sur le réseau interne de Groupomania !</h1>
-            <p class="h6 py-2"><em>La plateforme communautaire de Groupomania</em></p>
-            <hr class="mt-4 line">
+            <h1 class="my-3 text-secondary">Bienvenue sur le réseau interne de Groupomania !</h1>
+            <p class="h6 py-2 text-secondary"><em>La plateforme communautaire de Groupomania</em></p>
         </div>
     </div>
 </template>
@@ -15,5 +14,7 @@ export default {
 </script>
 
 <style scoped>
-
+.home {
+    border-radius: 1.7rem!important;
+}
 </style>

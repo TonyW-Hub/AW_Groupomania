@@ -1,5 +1,5 @@
 <template>
-    <div class="jumbotron p-2 pt-3">
+    <div class="p-2 pt-3">
 		<h1 class="h2 text-secondary">Bienvenue sur le réseau interne de Groupomania !</h1>
 	</div>
 </template>
@@ -12,6 +12,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-
 </style>

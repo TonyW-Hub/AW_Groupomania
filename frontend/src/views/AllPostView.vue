@@ -60,7 +60,7 @@
             </div>
             <div>
               <button class="btn btn-secondary rounded py-1 px-2 mt-2 mr-3" id="sendcom" type="submit" aria-label="Publication d'un commentaire">Commenter</button>
-              <button v-if="userId == post.userId || currentUser.isAdmin == 1" class="btn btn-primary text-white border-white rounded py-1 px-3 mt-2" @click.prevent="deletePost(post.id)" id="delpost" type="submit" aria-label="Supprimer le post"><i class="fa fa-trash"></i></button>
+              <button v-if="userId == post.userId || currentUser.isAdmin == 1" class="btn btn-dark text-white border-secondary rounded py-1 px-3 mt-2" @click.prevent="deletePost(post.id)" id="delpost" type="submit" aria-label="Supprimer le post"><i class="fa fa-trash"></i></button>
             </div>
           </form>
       </template>

@@ -21,9 +21,9 @@
                                             <div class="error" v-if="!$v.content.maxLength">Max. {{ $v.content.$params.maxLength.max }} letters</div>
                                         </div>
                                         <div class="form-group mt-3">
-                                            <label id="imageLabel" for="image" class="btn btn-primary border-white text-white font-weight-bold mt-2"><i class="fas fa-images"></i> Ajouter une image</label>
+                                            <label id="imageLabel" for="image" class="btn btn-secondary border-white text-white font-weight-bold mt-2"><i class="fas fa-images"></i> Ajouter une image</label>
                                             <input type="file" name="image" id="image" ref="image" v-on:change="handleFileUpload()"/>
-                                            <button class="btn btn-info font-weight-bold ml-3" type="submit">Envoyer <i class="fas fa-paper-plane"></i></button>
+                                            <button class="btn btn-primary font-weight-bold ml-3" type="submit">Envoyer <i class="fas fa-paper-plane"></i></button>
                                         </div>
                                     </form>
                                 </div>

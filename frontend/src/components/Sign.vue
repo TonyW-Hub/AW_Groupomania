@@ -61,7 +61,7 @@
             </div>
             <div class="pt-5">
                 <p class="pb-1"> Vous avez déjà un compte ? Connectez-vous !</p>
-                <button class="btn btn-dark btn-sm" @click.prevent="goLogin">Connexion</button>
+                <button class="btn btn-secondary btn-sm" @click.prevent="goLogin">Connexion</button>
             </div>
         </div>
     </div>
