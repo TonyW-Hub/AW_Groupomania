@@ -87,7 +87,7 @@ export default {
             alert: []
         }
     },
-    // is the references for xxx.$model in html part
+
     validations: {
         pseudo: {
             required,
@@ -115,35 +115,35 @@ export default {
         signup() {
             this.blankFields = false
             this.differentConfirmPassword = false
-            this.alert = [0]; // reboot alerts before each try
+            this.alert = [0];
 
-            if (this.email == null && this.password == null && this.pseudo == null && this.confirmPassword == null){
+            if (!this.email && !this.password && !this.pseudo && !this.confirmPassword) {
                 this.blankFields = true
             } else {
+                if(this.password == this.confirmPassword) {
+                    this.$v.$touch() // checks for errors
+                    this.submited = true
+                    axios
+                        .post( 'http://localhost:3000/api/users/signup', {
+                            pseudo: this.pseudo,
+                            email: this.email,
+                            password: this.password,
+                        })
+                        .then(() => {
+                            alert('Compte créé avec succès')
+                            localStorage.setItem('pseudo', this.pseudo)
+                            this.$router.push('Login')
+                        })
+                        .catch((error) => {
+                            console.log(error)
+                            if(error.response){
+                                this.alert = error.response.status;
+                            }
+                        })
 
-            if(this.password == this.confirmPassword) {
-            this.$v.$touch() // checks for errors
-            this.submited = true
-                axios
-                    .post( 'http://localhost:3000/api/users/signup', {
-                        pseudo: this.pseudo,
-                        email: this.email,
-                        password: this.password,
-                    })
-                    .then(() => {
-                        alert('Compte créé avec succès')
-                        localStorage.setItem('pseudo', this.pseudo)
-                        this.$router.push('Login')
-                    })
-                    .catch((error) => {
-                        if(error.response){
-                            this.alert = error.response.status;
-                        }
-                    })
-
-            } else {
-                this.differentConfirmPassword = true
-            }
+                } else {
+                    this.differentConfirmPassword = true
+                }
             }
         }
     }

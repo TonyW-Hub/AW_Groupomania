@@ -14,25 +14,25 @@ const models = require('../models');
 // Inscription d'un user
 exports.signup = (req, res, next) => {
 
-  // Params
-  const email = req.body.email;
-  const pseudo = req.body.pseudo;
-  const password = req.body.password;
-  const imageUrl = "https://pic.onlinewebfonts.com/svg/img_24787.png";
+    // Params
+    const email = req.body.email;
+    const pseudo = req.body.pseudo;
+    const password = req.body.password;
+    const imageUrl = "https://pic.onlinewebfonts.com/svg/img_24787.png";
 
-  // Checking params be null
-  if (email == null || pseudo == null || password == null) {
-    return res.status(400).json({ 'error': 'messing parameters' })
-  }
+    // Checking params be null
+    if (email == null || pseudo == null || password == null) {
+        return res.status(400).json({ 'error': 'messing parameters' })
+    }
 
-  const emailValid = validInput.validEmail(email);
-  const passwordValid = validInput.validPassword(password);
-  const pseudoValid = validInput.validPseudo(pseudo);
+    const emailValid = validInput.validEmail(email);
+    const passwordValid = validInput.validPassword(password);
+    const pseudoValid = validInput.validPseudo(pseudo);
 
     if (emailValid == true && passwordValid == true && pseudoValid == true) {
 
-      // Using Waterfall to enchain functions
-      asyncLib.waterfall([
+        // Using Waterfall to enchain functions
+        asyncLib.waterfall([
 
         // Checks if User exists
         function(done) { // done = main parameter
@@ -75,20 +75,22 @@ exports.signup = (req, res, next) => {
                 .catch(function(err) {
                     return res.status(500).json({ 'error': 'cannot add user' });
                 });
-        }
-    ],
+            }
+        ],
 
-    // After created, return new User id
-    function(newUser) {
-        if (newUser) {
-            return res.status(201).json({
-                'userId': newUser.id
-            });
-        } else {
-            return res.status(500).json({ 'error': 'cannot add user' });
-        }
-    });
-  };
+        // After created, return new User id
+        function(newUser) {
+            if (newUser) {
+                return res.status(201).json({
+                    'userId': newUser.id
+                });
+            } else {
+                return res.status(500).json({ 'error': 'cannot add user' });
+            }
+        });
+    } else {
+        return res.status(400).json({ 'error' : 'Invalid information.'})
+    };
 };
 
 // Connexion d'un user
@@ -225,7 +227,9 @@ exports.update = async(req, res, next) => {
     // Params
     const pseudo = req.body.pseudo;
     const email = req.body.email;
-    const password = req.body.password;
+
+    const password = req.body.password || null;
+
     const imageUrl = req.body && req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}` : null;
 
     const emailExists = await User.findOne({ where: { email: email } });
@@ -294,19 +298,21 @@ exports.update = async(req, res, next) => {
 
 //Suppression d'un compte
 exports.delete = (req, res) => {
-  const userId = jwtUtils.getUserId(req.headers.authorization);
+  const userId = req.params.id;
   if (userId != null) {
       models.User.findOne({
           where: { id: userId }
       })
           .then(user => {
-              if (user != null) {
+              if (user != null || user.isAdmin === true) {
+                  // Post delete
                   models.Post.destroy({
                       where: { userId: user.id },
                       force: true
                   })
                     .then(() => {
                         console.log('All post have been deleted');
+                        // User delete
                         models.User.destroy({
                             where: { id: user.id },
                             force: true
@@ -314,13 +320,17 @@ exports.delete = (req, res) => {
                             .then(() => res.end())
                             .catch(err => console.log(err))
                     })
-                    .catch(err => res.status(500).json(err))
+                    .catch(err => {
+
+                        console.log(err)
+                        res.status(500).json(err)
+                    })
               }
               else {
-                  res.status(401).json({ error: 'user not exist in DataBase' })
+                  res.status(404).json({ error: 'user not exist in DataBase' })
               }
           })
   } else {
       res.status(500).json({ error: 'Cannot delete this account, contact an administrator' })
   }
-}
+};

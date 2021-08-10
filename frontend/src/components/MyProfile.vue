@@ -166,31 +166,21 @@ export default {
             this.errorInputs = false;
             this.errorDelete = false;
             this.differentConfirmPassword = false;
-            // const regexPassword = /((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,64})/;
+                
+            const formData = new FormData();
 
-            // Checks if password input is filled
-            if(this.password !== null) {
-                // Checks if both matches
-                if(this.password !== this.confirmPassword) {
-                    // Throw error if not
-                    this.differentConfirmPassword = true
+            // Valeurs préremplies
+            formData.append("userId", this.userId);
+            formData.append("pseudo", this.pseudo);
+            formData.append("email", this.email);
 
-                // Send the request if OK
-                } else {
-                    const formData = new FormData();
+            if(this.image) {
+                formData.append("image", this.image);
+            }
 
-            if (this.image) {
-                    formData.append("image", this.image);
-                    formData.append("userId",this.userId);
-                    formData.append("pseudo", this.pseudo);
-                    formData.append("email", this.email);
-                    formData.append("password", this.password);
-            } else {
-                    formData.append("userId", this.userId);
-                    formData.append("pseudo", this.pseudo);
-                    formData.append("email", this.email);
-                    formData.append("password", this.password);
-                }
+            if (this.password !== "" && this.confirmPassword !== "") {
+                formData.append("password", this.password);
+            }
 
             axios
                 .put(`http://localhost:3000/api/users/${this.userId}`, formData, {
@@ -207,44 +197,6 @@ export default {
                 .catch(() => {
                     this.errorInputs = true
                 })
-                }
-
-            // If password input is not filled,
-            } else { // send the request with other inputs
-
-                const formData = new FormData();
-                // If there is an image uploaded :
-                if (this.image) {
-                        formData.append("image", this.image);
-                        formData.append("userId",this.userId);
-                        formData.append("pseudo", this.pseudo);
-                        formData.append("email", this.email);
-                        formData.append("password", this.password);
-                // if not :
-                } else {
-                        formData.append("userId", this.userId);
-                        formData.append("pseudo", this.pseudo);
-                        formData.append("email", this.email);
-                        formData.append("password", this.password);
-                    }
-
-                axios
-                    .put(`http://localhost:3000/api/users/${this.userId}`, formData, {
-                        headers: {
-                            "Content-Type": "multipart/form-data",
-                            "Authorization": 'Bearer ' + this.token
-                        }
-                    })
-                    .then(() => {
-                        localStorage.setItem('pseudo', this.pseudo)
-                        this.confirmUpdate = true
-                        this.$router.go()
-                    })
-                    .catch(() => {
-                        this.errorInputs = true
-                        this.$router.go()
-                    })
-            }
         },
 
         deleteUser() {
