@@ -22,7 +22,7 @@
                 <span class="col-3 text-white font-weight-bold px-0 my-auto">{{ user.email }}</span>
                 <span class="col-1 text-white font-weight-bold px-0 my-auto">{{ user.isAdmin }}</span>
                 <span class="col-2 text-white font-weight-bold px-0 my-auto">{{ user.createdAt.substr(0, 10).split("-").reverse().join("-") }}</span>
-                <button class="col-1 btn btn-danger btn-sm font-weight-bold my-auto" @click.prevent="deleteUser(user.id)">Bannir</button>
+                <button class="col-1 btn btn-danger btn-sm font-weight-bold my-auto shadow-sm" @click.prevent="deleteUser(user.id)">Bannir</button>
                 
                 <b-alert v-if="confirmDelete" show dismissible variant="success">Profil supprimé</b-alert>
                 <b-alert v-if="errorDelete" show dismissible variant="danger">Une erreur est survenue.</b-alert>

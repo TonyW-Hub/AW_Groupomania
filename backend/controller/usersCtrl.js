@@ -334,3 +334,25 @@ exports.delete = (req, res) => {
       res.status(500).json({ error: 'Cannot delete this account, contact an administrator' })
   }
 };
+
+exports.googleLogin = async (req, res, next) => {
+    const { email } = req.body;
+    const user = await  models.User.findOne({
+        where: { email }
+    });
+
+    if (user) {
+        res.status(200).json({
+                userId: user.id,
+                token: jwt.sign({ userId: user.id },
+                    // must be a long non specific and random characters
+                    process.env.TOKEN,
+                    // make the token expires after 8h
+                    { expiresIn: '8h' }
+                ),
+                isAdmin: user.isAdmin
+            })
+    } else {
+        res.status(404).json({message: "not found"})
+    }
+}

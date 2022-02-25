@@ -16,6 +16,7 @@ const rateLimiter = rateLimit({
 
 router.post('/signup', usersCtrl.signup);
 router.post('/login', rateLimiter, usersCtrl.login);
+router.post('/google/login', usersCtrl.googleLogin);
 router.get('/profile', auth, usersCtrl.findOne);
 router.get('/', auth, usersCtrl.findAll);
 router.delete('/:id', auth, usersCtrl.delete);

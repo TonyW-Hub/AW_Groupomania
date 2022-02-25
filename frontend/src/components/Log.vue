@@ -31,6 +31,7 @@
             <b-alert v-if="errorAlert" show dismissible variant="danger" class="col-10 mx-auto mt-5">Identifiants incorrects</b-alert>
             <div class="mt-5 pt-5">
                 <p class="pb-1"> Vous n'avez pas encore de compte ? Inscrivez-vous !</p>
+                <GoogleLogin :params="params" :onSuccess="onSuccess" :onFailure="onFailure">Login</GoogleLogin>
                 <button class="btn btn-secondary btn-sm" @click.prevent="goSignin" >Inscription</button>
             </div>
         </div>
@@ -41,62 +42,98 @@
 <script>
 import {email,required,minLength} from "vuelidate/lib/validators";
 import axios from "axios";
+import GoogleLogin from 'vue-google-login';
 
 
 export default {
-name: 'login',
-data() {
-    return {
-        email: "",
-        password: "",
-        submited: false,
-        isActive: true,
-        errorAlert: false
-    }
+    components: {
+        GoogleLogin
     },
-
-validations: {
-    email: {
-        email,
-        required
-    },
-    password: {
-        required,
-        minLength: minLength(8)
-    }
-},
-methods:{
-
-    activatedBtn() {
-        const email = document.getElementById('email').value
-        const password = document.getElementById('password').value
-        if (email !== null && password !== null){
-            this.isActive = false
+    name: 'login',
+    data() {
+        return {
+            email: "",
+            password: "",
+            submited: false,
+            isActive: true,
+            errorAlert: false,
+            params: {
+                client_id: "123613815833-vif50rbv2hhp2g240kgu8r0f0gta0rup.apps.googleusercontent.com"
+            },
+            // only needed if you want to render the button with the google ui
+            renderParams: {
+                width: 250,
+                height: 50,
+                longtitle: true
+            }
         }
     },
 
-    login() {
-        this.errorAlert = false; // reboot alert before each try
-
-    axios.post( 'http://localhost:3000/api/users/login', {
-        email: this.email,
-        password: this.password,
-        })
-        .then((res) => {
-            localStorage.setItem("token", res.data.token)
-            localStorage.setItem("userId", res.data.userId)
-            localStorage.setItem("isAdmin", res.data.isAdmin)
-            this.$router.push('/allpost');
-        })
-        .catch(() => {
-            this.errorAlert = true
-        })
+    validations: {
+        email: {
+            email,
+            required
+        },
+        password: {
+            required,
+            minLength: minLength(8)
+        }
     },
+    methods:{
+        onSuccess(googleUser) {
+            console.log(googleUser);
+ 
+            // This only gets the user information: id, name, imageUrl and email
+            console.log(googleUser.getBasicProfile().yv);
+            const email = googleUser.getBasicProfile().yv;
+            axios.post('http://localhost:3000/api/users/google/login', {
+                email
+            })
+            .then((res) => {
+                localStorage.setItem("token", res.data.token)
+                localStorage.setItem("userId", res.data.userId)
+                localStorage.setItem("isAdmin", res.data.isAdmin)
+                this.$router.push('/allpost');
+            })
+            .catch(() => {
+                this.errorAlert = true
+            })
+        },
 
-    goSignin(){
-        this.$router.push('Signup');
+        onFailure() {
+            console.log('error')
+        },
+
+        activatedBtn() {
+            const email = document.getElementById('email').value
+            const password = document.getElementById('password').value
+            if (email !== null && password !== null){
+                this.isActive = false
+            }
+        },
+
+        login() {
+            this.errorAlert = false; // reboot alert before each try
+
+        axios.post( 'http://localhost:3000/api/users/login', {
+            email: this.email,
+            password: this.password,
+            })
+            .then((res) => {
+                localStorage.setItem("token", res.data.token)
+                localStorage.setItem("userId", res.data.userId)
+                localStorage.setItem("isAdmin", res.data.isAdmin)
+                this.$router.push('/allpost');
+            })
+            .catch(() => {
+                this.errorAlert = true
+            })
+        },
+
+        goSignin(){
+            this.$router.push('Signup');
+        }
     }
-}
 }
 </script>
 
